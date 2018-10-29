@@ -40,19 +40,19 @@ versions.
 * All lines should be 80 or fewer characters unless absolutely
 mandated by content
 
-* y ~ normal(mu, sigma) # Not: N(), not sigma^2, regular font for
-  "normal", Latex math for $y$, $\mu$, $\sigma$
+* y ~ normal(mu, sigma) # Not: N(), not sigma^2, roman font for
+  "normal", LaTeX math for $y$, $\mu$, $\sigma$
 
-* norma(y | mu, sigma) # Vertical bar, not semicolon
+* normal(y | mu, sigma) # Vertical bar, not semicolon
 
 * Poisson, Weibull, LKJ # Use capital letters for distributions that
   are named after people
 
-* E(y)  # Regular font, parentheses not brackets
+* E(y)  # Roman font for E, LaTeX math for $y$, parentheses not brackets
 
 * ()  # Always parentheses, never brackets
 
-* No special fonts for distributions, just latex roman and math fonts
+* No special fonts for distributions, just roman and math fonts
 
 * p(y) # Probability density and probability mass function
 
