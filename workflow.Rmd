@@ -48,12 +48,15 @@ experiment:
 
 * At the beginning of each month, a pest inspector randomly places a
 number of bait stations throughout the building, without knowledge of
-the current cockroach levels in the building.  * At the end of the
-month, the manager records the total number of cockroach complaints in
-that building.  * The manager would like to determine the optimal
-number of bait stations ($\textrm{traps}$) that balances the lost
-revenue ($\textrm{R}$) that complaints generate with the all-in cost
-of maintaining the bait stations ($\textrm{TC}$).
+the current cockroach levels in the building.
+
+* At the end of the month, the manager records the total number of
+cockroach complaints in that building.
+
+* The manager would like to determine the optimal number of bait
+stations ($\textrm{traps}$) that balances the lost revenue
+($\textrm{R}$) that complaints generate with the all-in cost of
+maintaining the bait stations ($\textrm{TC}$).
 
 Fortunately, Bayesian data analysis provides a coherent framework for
 us to tackle this problem.
