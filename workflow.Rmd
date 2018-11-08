@@ -425,18 +425,18 @@ that information into the model, we can interpret our parameters as a
 rate of complaints per square foot per 30 days.
 
 $$ \begin{aligned}
-\textrm{complaints}_{b,t} & \sim \textrm{Poisson}(\textrm{sq\_foot}_b\,\lambda_{b,t}) \\
+\textrm{complaints}_{b,t} & \sim \textrm{Poisson}(\textrm{sq}\_\textrm{foot}_b\,\lambda_{b,t}) \\
 \lambda_{b,t} & = \exp{(\eta_{b,t} )} \\
 \eta_{b,t} &= \alpha + \beta \, \textrm{traps}_{b,t}
 \end{aligned} $$
 
-The term $\textrm{sq\_foot}$ is called an exposure term. If we log the
+The term $\textrm{sq}\_\textrm{foot}$ is called an exposure term. If we log the
 term, we can put it in $\eta_{b,t}$:
 
 $$ \begin{aligned}
 \textrm{complaints}_{b,t} & \sim \textrm{Poisson}(\lambda_{b,t}) \\
 \lambda_{b,t} & = \exp{(\eta_{b,t} )} \\
-\eta_{b,t} &= \alpha + \beta \, \textrm{traps}_{b,t} + \textrm{log\_sq\_foot}_b
+\eta_{b,t} &= \alpha + \beta \, \textrm{traps}_{b,t} + \textrm{log}\_\textrm{sq}\_\textrm{foot}_b
 \end{aligned} $$
 
 A quick check finds a relationship between the square footage of the
@@ -554,7 +554,7 @@ $$
 \begin{aligned}
 \mathrm{complaints}_{b,t} & \sim \mathrm{Neg-Binomial}(\lambda_{b,t}, \phi) \\
 \lambda_{b,t} & = \exp(\eta_{b,t}) \\
-\eta_{b,t} & = \alpha + \beta \, \mathrm{traps}_{b,t} + \beta_{\mathrm{super}} \, \mathrm{super}_{b} + \mathrm{log\_sq\_foot}_{b}
+\eta_{b,t} & = \alpha + \beta \, \mathrm{traps}_{b,t} + \beta_{\mathrm{super}} \, \mathrm{super}_{b} + \mathrm{log}\_\textrm{sq}\_\textrm{foot}_{b}
 \end{aligned}
 $$
 
@@ -716,7 +716,7 @@ building level to our model.
 $$
 \text{complaints}_{b,t} \sim \text{Neg-Binomial}(\lambda_{b,t}, \phi) \\
 \lambda_{b,t}  = \exp{(\eta_{b,t})} \\
-\eta_{b,t} = \mu_b + \beta \, {\rm traps}_{b,t} + \beta_{\rm super}\, {\rm super}_b + \text{log\_sq\_foot}_b \\
+\eta_{b,t} = \mu_b + \beta \, {\rm traps}_{b,t} + \beta_{\rm super}\, {\rm super}_b + \text{log}\_\textrm{sq}\_\textrm{foot}_b \\
 \mu_b \sim \text{normal}(\alpha, \sigma_{\mu})
 $$
 
@@ -727,7 +727,7 @@ One of our predictors varies only by building, so we can rewrite the
 above model more efficiently like so:
 
 $$
-\eta_{b,t} = \mu_b + \beta \, {\rm traps}_{b,t} + \text{log\_sq\_foot}_b\\
+\eta_{b,t} = \mu_b + \beta \, {\rm traps}_{b,t} + \text{log}\_\textrm{sq}\_\textrm{foot}_b\\
 \mu_b \sim \text{normal}(\alpha +  \beta_{\text{super}} \, \text{super}_b , \sigma_{\mu})
 $$
 
@@ -745,8 +745,8 @@ and four columns:
 We'll write the Stan model like:
 
 $$
-\eta_{b,t} = \alpha_b + \beta \, {\rm traps} + \text{log\_sq\_foot}\\
-\mu \sim \text{normal}(\alpha + \texttt{building\_data} \, \zeta, \,\sigma_{\mu})
+\eta_{b,t} = \alpha_b + \beta \, {\rm traps} + \text{log}\_\textrm{sq}\_\textrm{foot}\\
+\mu \sim \text{normal}(\alpha + \texttt{building}\_\textrm{data} \, \zeta, \,\sigma_{\mu})
 $$
 
 ### Preparation for building data for hierarchical modeling {-}
@@ -918,7 +918,7 @@ model block. We then make $\texttt{mu}$ a transformed parameter: We
 can reparameterize the random intercept $\mu_b$, which is distributed:
 
 $$
-\mu_b \sim \text{normal}(\alpha + \texttt{building\_data} \, \zeta,
+\mu_b \sim \text{normal}(\alpha + \texttt{building}\_\textrm{data} \, \zeta,
                          \sigma_{\mu})
 $$
 
@@ -931,7 +931,7 @@ transformed parameters {
 ```
 
 This gives $\texttt{mu}$ a $\text{normal}(\alpha +
-\texttt{building\_data}\, \zeta, \sigma_\mu)$ distribution, but it
+\texttt{building}\_\textrm{data}\, \zeta, \sigma_\mu)$ distribution, but it
 decouples the dependence of the density of each element of
 $\texttt{mu}$ from `sigma_mu` ($\sigma_\mu$).
 hier_NB_regression_ncp.stan uses the non-centered parameterization for
@@ -1053,11 +1053,11 @@ $$
 \lambda_{b,t} = \exp{(\eta_{b,t})}
 \\
 \eta_{b,t} = \mu_b + \kappa_b \, \texttt{traps}_{b,t}
-             + \text{log\_sq\_foot}_b
+             + \text{log}\_\textrm{sq}\_\textrm{foot}_b
 \\
-\mu_b \sim \text{normal}(\alpha + \texttt{building\_data} \, \zeta,
+\mu_b \sim \text{normal}(\alpha + \texttt{building}\_\textrm{data} \, \zeta,
                          \sigma_{\mu}) \\
-\kappa_b \sim \text{normal}(\beta + \texttt{building\_data} \, \gamma,
+\kappa_b \sim \text{normal}(\beta + \texttt{building}\_\textrm{data} \, \gamma,
                             \sigma_{\kappa})
 $$
 
@@ -1130,7 +1130,7 @@ $\texttt{mo}_t$.
 $$
 \eta_{b,t}
   = \mu_b + \kappa_b \, \texttt{traps}_{b,t}
-    + \texttt{mo}_t + \text{log\_sq\_foot}_b
+    + \texttt{mo}_t + \text{log}\_\textrm{sq}\_\textrm{foot}_b
 $$
 
 We have complete freedom over how to specify the prior for
@@ -1489,25 +1489,29 @@ the other terms are sums of normal random variables, jointly the
 vector, `mo`, with the $t$-th element equally the scalar
 $\texttt{mo}_t$, is multivariate normal, with mean zero (which we
 derived above). More formally, if we have a vector $x \in
-\mathbb{R}^M$ which is multivariate normal, $x \sim \text{multiviarate
-\ normal}(0, \Sigma)$ and we left-multiply $x$ by a nonsingular matrix
-$L \in \mathbb{R}^{M\times M}$, $y = Lx \sim \text{multivariate
-normal}(0, L\Sigma L^T)$.  We can use this fact to show that our
+\mathbb{R}^M$ which is multivariate normal,
+$x \sim \text{multiviarate normal}(0, \Sigma)$
+and we left-multiply $x$ by a nonsingular matrix
+$L \in \mathbb{R}^{M\times M}$,
+$y = Lx \sim \text{multivariate normal}(0, L\Sigma L^T)$.
+We can use this fact to show that our
 vector `mo` is jointly multivariate normal.
 
 Just as before with the noncentered parameterization, we'll be taking
-a vector $\texttt{mo\_raw} \in \mathbb{R}^M$ in which each element is
+a vector $\texttt{mo}\_\textrm{raw} \in \mathbb{R}^M$ in which each element is
 univariate $\text{normal}(0,1)$ and transforming it into `mo`, but
 instead of doing the transformation with scalar transformations as in
 the section __Time varying effects and structured priors__, we'll do
 it with linear algebra operations.  The trick is that by specifying
-each element of $\texttt{mo\_raw}$ to be distributed
-$\text{normal}(0,1)$ we are implicitly defining $\texttt{mo\_raw} \sim
-\text{multivariate \ normal}(0, I_M)$, where $I_M$ is the identity
-matrix of dimension $M \times M$. Then we do a linear transformation
-using a matrix $L$ and assign the result to `mo` like $\texttt{mo} =
-L*\texttt{mo\_raw}$ so $\texttt{mo} \sim \text{multivariate \
-normal}(0, LI_M L^T)$ and $LI_M L^T = LL^T$.
+each element of $\texttt{mo}\_\textrm{raw}$ to be distributed
+$\text{normal}(0,1)$ we are implicitly defining
+$\texttt{mo}\_\textrm{raw} \sim \text{multivariate normal}(0, I_M)$,
+where $I_M$ is the identity matrix of dimension $M \times M$.
+Then we do a linear transformation
+using a matrix $L$ and assign the result to `mo` like
+$\texttt{mo} = L*\texttt{mo}\_\textrm{raw}$ so
+$\texttt{mo} \sim \text{multivariate normal}(0, LI_M L^T)$
+and $LI_M L^T = LL^T$.
 
 Consider the case where we have three elements in `mo` and we want to
 make figure out the form for $L$.
@@ -1520,9 +1524,9 @@ transformation.
 $$
 \texttt{mo}_1
   = \frac{\sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}}
-      \times \texttt{mo\_raw}_1
-    + 0 \times \texttt{mo\_raw}_2
-    + 0 \times \texttt{mo\_raw}_3
+      \times \texttt{mo}\_\textrm{raw}_1
+    + 0 \times \texttt{mo}\_\textrm{raw}_2
+    + 0 \times \texttt{mo}\_\textrm{raw}_3
 $$
 
 The second element is a bit more complicated:
@@ -1532,20 +1536,20 @@ $$
 \texttt{mo}_2
 & =
 \rho \texttt{mo}_1
-  + \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2
-  + 0 \times \texttt{mo\_raw}_3
+  + \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2
+  + 0 \times \texttt{mo}\_\textrm{raw}_3
 \\
 & =
 \rho \left( \frac{\sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}}
-            \times \texttt{mo\_raw}_1 \right)
-  + \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2
-  + 0 \times \texttt{mo\_raw}_3
+            \times \texttt{mo}\_\textrm{raw}_1 \right)
+  + \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2
+  + 0 \times \texttt{mo}\_\textrm{raw}_3
 \\[5pt]
 & =
 \frac{\rho \sigma_{\texttt{mo}}}
-     {\sqrt{1 - \rho^2}} \times \texttt{mo\_raw}_1
-  + \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2
-  + 0 \times \texttt{mo\_raw}_3
+     {\sqrt{1 - \rho^2}} \times \texttt{mo}\_\textrm{raw}_1
+  + \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2
+  + 0 \times \texttt{mo}\_\textrm{raw}_3
 \end{aligned}
 $$
 
@@ -1555,17 +1559,17 @@ $$
 \begin{aligned}
 \texttt{mo}_3
 & = \rho \, \texttt{mo}_2
-    + \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_3
+    + \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_3
 \\
 & = \rho \left( \frac{\rho \sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}}
-                  \times\texttt{mo\_raw}_1
-		+ \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2 \right)
-    + \sigma_{\texttt{mo}} \texttt{mo\_raw}_3
+                  \times\texttt{mo}\_\textrm{raw}_1
+		+ \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2 \right)
+    + \sigma_{\texttt{mo}} \texttt{mo}\_\textrm{raw}_3
 \\[5pt]
 & = \frac{\rho^2 \sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}}
-      \times \texttt{mo\_raw}_1
-    + \rho \, \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2
-    +  \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_3
+      \times \texttt{mo}\_\textrm{raw}_1
+    + \rho \, \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2
+    +  \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_3
 \end{aligned}
 $$
 
@@ -1574,21 +1578,21 @@ Writing this all together:
 $$
 \begin{aligned}
 \texttt{mo}_1
-& = \frac{\sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}} \times \texttt{mo\_raw}_1
-    + 0 \times \texttt{mo\_raw}_2
-    + 0 \times \texttt{mo\_raw}_3
+& = \frac{\sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}} \times \texttt{mo}\_\textrm{raw}_1
+    + 0 \times \texttt{mo}\_\textrm{raw}_2
+    + 0 \times \texttt{mo}\_\textrm{raw}_3
 \\[3pt]
 \texttt{mo}_2
 & = \frac{\rho \sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}}
-      \times \texttt{mo\_raw}_1
-    + \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2
-    + 0 \times \texttt{mo\_raw}_3
+      \times \texttt{mo}\_\textrm{raw}_1
+    + \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2
+    + 0 \times \texttt{mo}\_\textrm{raw}_3
 \\[3pt]
 \texttt{mo}_3
 & = \frac{\rho^2 \sigma_{\texttt{mo}}}{\sqrt{1 - \rho^2}}
-      \times \texttt{mo\_raw}_1
-    + \rho \, \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_2
-    +  \sigma_{\texttt{mo}}\,\texttt{mo\_raw}_3
+      \times \texttt{mo}\_\textrm{raw}_1
+    + \rho \, \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_2
+    +  \sigma_{\texttt{mo}}\,\texttt{mo}\_\textrm{raw}_3
 \end{aligned}
 $$
 
@@ -1607,7 +1611,7 @@ $$
 & \rho \,\sigma_\texttt{mo}
 & \sigma_\texttt{mo}
 \end{bmatrix}
-  \times \texttt{mo\_raw}
+  \times \texttt{mo}\_\textrm{raw}
 $$
 
 If we multiply $L$ on the right by its transpose $L^T$, we'll get
